@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace _30DaysChallenge
 {
@@ -15,7 +14,9 @@ namespace _30DaysChallenge
                 Console.WriteLine("i: " + i);
                 result = result == 0 ? n * i : result * i;
             }
-            
+            int[] scores = { 1, 2, 3 };
+            scores.Average();
+
             return result;
         }
     }
