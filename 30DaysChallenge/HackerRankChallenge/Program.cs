@@ -7,46 +7,43 @@ namespace _30DaysChallenge
     {
         static void Main(string[] args)
         {
-            var result = Convert.ToString(int.MaxValue, 2);
-            Console.WriteLine(result);
-            var aox = result.ToCharArray();
-            var result2 = aox.GetMaxConsecutiveValue('1');
-            Console.WriteLine(result2);
+            int[][] arr = new int[6][];
+
+
+            arr[0] = Array.ConvertAll("1 1 1 0 0 0".Split(" "), arrTemp => Convert.ToInt32(arrTemp));
+            arr[1] = Array.ConvertAll("0 1 0 0 0 0".Split(" "), arrTemp => Convert.ToInt32(arrTemp));
+            arr[2] = Array.ConvertAll("1 1 1 0 0 0".Split(" "), arrTemp => Convert.ToInt32(arrTemp));
+            arr[3] = Array.ConvertAll("0 0 2 4 4 0".Split(" "), arrTemp => Convert.ToInt32(arrTemp));
+            arr[4] = Array.ConvertAll("0 0 0 2 0 0".Split(" "), arrTemp => Convert.ToInt32(arrTemp));
+            arr[5] = Array.ConvertAll("0 0 1 2 4 0".Split(" "), arrTemp => Convert.ToInt32(arrTemp));
+
+            //for (int i = 0; i < 6; i++)
+            //{
+            //    arr[i] = Array.ConvertAll(Console.ReadLine().Split(' '), arrTemp => Convert.ToInt32(arrTemp));
+            //}
+
+            var sum = GetHighestSum(arr);
+            Console.WriteLine(sum);
             Console.ReadLine();
         }
-    }
 
-
-    public static class ArrayExtension
-    {
-        public static int GetMaxConsecutiveValue(this char[] obj, char value)
+        static int GetHighestSum(int[][] arr)
         {
-            var highestConsecutiveSoFar = 0;
-            var highestOnLoop = 0;
-            for (int i = 0; i <= obj.Length - 1; i++)
+            var maxSum = 0;
+
+            for (int line = 0; line <= arr.GetLength(0) - 3; line++)
             {
-                if (highestOnLoop == 0 && obj[i] == value)
+                for (int column = 0; column <= arr[line].Length - 3; column++)
                 {
-                    highestOnLoop++;
-                    if (obj.Length == 1)
-                        highestConsecutiveSoFar = highestOnLoop;
+                    var sum = arr[line][column] + arr[line][column + 1] + arr[line][column + 2];
+                    sum += arr[line + 1][column + 1];
+                    sum += arr[line + 2][column] + arr[line + 2][column + 1] + arr[column + 2][line];
 
-                    continue;
+                    maxSum = sum > maxSum ? sum : maxSum;
                 }
-
-                if ((obj[i - 1] == obj[i] && obj[i] == value)|| (obj[i] == value && highestOnLoop == 0))
-                    highestOnLoop++;
-                else
-                {
-                    highestConsecutiveSoFar = highestOnLoop > highestConsecutiveSoFar ? highestOnLoop : highestConsecutiveSoFar;
-                    highestOnLoop = 0;
-                }
-
-                if (i == obj.Length - 1)
-                    highestConsecutiveSoFar = highestOnLoop > highestConsecutiveSoFar ? highestOnLoop : highestConsecutiveSoFar;
             }
 
-            return highestConsecutiveSoFar;
+            return maxSum;
         }
     }
 }
