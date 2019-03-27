@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace _30DaysChallenge
@@ -8,15 +7,48 @@ namespace _30DaysChallenge
     {
         static void Main(string[] args)
         {
-            var result = Solution(new int[] { 1, 1, 2, 2, 3 });
-            Console.WriteLine(result);
-            Console.ReadLine();
+            Convert.ToInt32(Console.ReadLine());
+
+            int[] a = Console.ReadLine().Split(' ').Select(x => Convert.ToInt32(x)).ToArray();
+
+            Difference d = new Difference(a);
+
+            d.computeDifference();
+
+            Console.Write(d.maximumDifference);
         }
 
         public static int Solution(int[] A)
         {
-            var group = A.GroupBy(x => x);
-            return group.Select(x => new { x.Key, Count = x.Count()}).FirstOrDefault(x => x.Count <= 1).Key;
+            var result = 1;
+            var orderedArray = A.OrderBy(x => x).ToArray();
+
+            for (int i = 0; i < orderedArray.Count() - 1; i++)
+            {
+                if ((orderedArray[i] + 1) != orderedArray[i + 1])
+                    return orderedArray[i] + 1;
+            }
+
+            return result;
         }
     }
+
+    public class Difference
+    {
+        private int[] elements;
+        public int maximumDifference;
+
+        public Difference(int[] elements)
+        {
+            this.elements = elements;
+        }
+
+
+        public void computeDifference()
+        {
+            var test = elements.OrderBy(x => x);
+
+            maximumDifference = test.Last() - test.First();
+        }
+    } // End of Difference Class
 }
